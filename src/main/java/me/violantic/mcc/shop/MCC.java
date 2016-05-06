@@ -97,7 +97,7 @@ public class MCC extends JavaPlugin {
     }
 
     public File getServerSettingsFile() {
-        return new File(super.getDataFolder(), "luna.conf");
+        return new File(super.getDataFolder(), "mcc.conf");
     }
 
 
