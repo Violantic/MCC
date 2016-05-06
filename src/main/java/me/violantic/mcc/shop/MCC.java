@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 
 /**
  * Created by Ethan on 5/5/2016.
@@ -29,13 +30,17 @@ public class MCC extends JavaPlugin {
     private MCCDB database;
     private EconRepository econRepository;
     private AsyncHandler asyncHandler;
+    private Logger logger;
 
     public Map<String, String> dbCredentials;
 
     public Map<UUID, Account> userAccounts;
 
+    @Override
     public void onEnable() {
         instance = new MCC();
+
+        logger = getLogger();
 
         listeners = new MCCListenerRegistry(this);
         listeners.registerAll();
@@ -53,10 +58,10 @@ public class MCC extends JavaPlugin {
         dbCredentials = new HashMap<>();
         loadCredentials();
 
-        database = new MCCDB();
-        econRepository = new EconRepository();
-
         userAccounts = new ConcurrentHashMap<>();
+
+        database = new MCCDB();
+        econRepository = new EconRepository(userAccounts);
 
         asyncHandler = new MCCAsyncHandler(this);
     }
@@ -69,6 +74,10 @@ public class MCC extends JavaPlugin {
 
     public MCCDB getDB() {
         return database;
+    }
+
+    public void log(String message) {
+        logger.severe("[MCC][ECONOMY] " + message);
     }
 
     public EconRepository getEconomy() {

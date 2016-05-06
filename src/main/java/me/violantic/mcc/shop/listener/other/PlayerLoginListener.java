@@ -24,7 +24,8 @@ public class PlayerLoginListener extends MCCListener<MCC> {
             Account account = new Account(player.getUniqueId().toString());
             if(MCC.getInstance().getEconomy().existsIfNotCreate(account)) {
                 MCC.getInstance().getAsyncHandler().async(() -> MCC.getInstance().getEconomy().getRepositoryCache().put(player.getUniqueId(), account));
-                player.sendMessage(ChatColor.DARK_AQUA + "You have logged into MCC");
+                MCC.getInstance().log(account.getUuid() + "'s account has been logged into and added to the economy repository.");
+                player.sendMessage(ChatColor.DARK_AQUA + "[MCC][ECONOMY] You have logged in");
                 player.sendMessage(ChatColor.AQUA + "" + ChatColor.STRIKETHROUGH + "--------------------");
                 player.sendMessage(ChatColor.AQUA + "Balance: " + ChatColor.YELLOW + account.getAmount());
                 player.sendMessage(ChatColor.AQUA + "" + ChatColor.STRIKETHROUGH + "--------------------");
